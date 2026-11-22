@@ -68,3 +68,4 @@ table {
   background-color: #fee2e2;
   color: #991b1b;
 }
+.header-actions { display: flex; gap: 10px; flex-wrap: wrap; }

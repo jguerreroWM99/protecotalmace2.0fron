@@ -11,7 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import Swal from 'sweetalert2';
-
+import { CatalogoDialog } from '../catalogo-dialog/catalogo-dialog';
 import { ProductoService } from '../../services/producto-services';
 import { ProductoResponse } from '../../models/producto-models';
 import { ProductoFormDialog } from '../producto-form-dialog/producto-form-dialog';
@@ -38,6 +38,11 @@ import { ProductoFormDialog } from '../producto-form-dialog/producto-form-dialog
 export class ProductoLista implements OnInit {
   private productoService = inject(ProductoService);
   private dialog = inject(MatDialog);
+  abrirCatalogos(): void {
+    this.dialog.open(CatalogoDialog, {
+      width: '580px'
+    });
+  }
 
   displayedColumns: string[] = [
     'codigoSku',

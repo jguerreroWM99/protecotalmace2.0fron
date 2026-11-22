@@ -44,7 +44,7 @@
           <h3>Actualizar Contraseña</h3>
           <p class="muted">Ingresa tu contraseña actual y define una nueva clave de acceso.</p>
 
-          <form [formGroup]="passwordForm" (ngSubmit)="cambiarPassword()" class="pass-form">
+          <form [formGroup]="passwordForm" #passDir="ngForm" (ngSubmit)="cambiarPassword(passDir)" class="pass-form">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Contraseña Actual</mat-label>
               <input matInput [type]="ocultarActual ? 'password' : 'text'" formControlName="passwordActual" />
@@ -125,126 +125,10 @@
             <tr mat-row *matRowDef="let row; columns: historialColumns;"></tr>
           </table>
 
-          <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
-        </div>
-      </div>
-    </mat-tab>
-
-    <!-- PESTAÑA 3: CATÁLOGOS DEL ALMACÉN -->
-    <mat-tab label="Catálogos (Marcas y Tipos)">
-      <div class="tab-content catalogs-grid">
-        <!-- Categorías -->
-        <div class="catalog-box">
-          <h3>Categorías</h3>
-          <form [formGroup]="categoriaForm" (ngSubmit)="agregarCategoria()" class="inline-form">
-            <mat-form-field appearance="outline">
-              <mat-label>Nueva Categoría</mat-label>
-              <input matInput formControlName="nombre" placeholder="Ej. Audio" />
-            </mat-form-field>
-            <button mat-mini-fab color="primary" type="submit" title="Agregar">
-              <mat-icon>add</mat-icon>
-            </button>
-          </form>
-          <div class="chip-list">
-            @for (c of categorias; track c.id) {
-              <div class="item-row">
-                <span>{{ c.nombre }}</span>
-                <button mat-icon-button color="warn" (click)="eliminarCategoria(c.id)">
-                  <mat-icon>delete_outline</mat-icon>
-                </button>
-              </div>
-            }
-          </div>
-        </div>
-
-        <!-- Tipos de Producto -->
-        <div class="catalog-box">
-          <h3>Tipos de Producto</h3>
-          <form [formGroup]="tipoForm" (ngSubmit)="agregarTipo()" class="inline-form">
-            <mat-form-field appearance="outline">
-              <mat-label>Categoría</mat-label>
-              <mat-select formControlName="categoriaId">
-                @for (c of categorias; track c.id) {
-                  <mat-option [value]="c.id">{{ c.nombre }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Nuevo Tipo</mat-label>
-              <input matInput formControlName="nombre" placeholder="Ej. Audífonos" />
-            </mat-form-field>
-            <button mat-mini-fab color="primary" type="submit" title="Agregar">
-              <mat-icon>add</mat-icon>
-            </button>
-          </form>
-          <div class="chip-list">
-            @for (t of tiposProducto; track t.id) {
-              <div class="item-row">
-                <span>{{ t.nombre }} <small class="muted">({{ t.categoriaNombre }})</small></span>
-                <button mat-icon-button color="warn" (click)="eliminarTipo(t.id)">
-                  <mat-icon>delete_outline</mat-icon>
-                </button>
-              </div>
-            }
-          </div>
-        </div>
-
-        <!-- Marcas -->
-        <div class="catalog-box">
-          <h3>Marcas</h3>
-          <form [formGroup]="marcaForm" (ngSubmit)="agregarMarca()" class="inline-form">
-            <mat-form-field appearance="outline">
-              <mat-label>Nueva Marca</mat-label>
-              <input matInput formControlName="nombre" placeholder="Ej. Asus" />
-            </mat-form-field>
-            <button mat-mini-fab color="primary" type="submit" title="Agregar">
-              <mat-icon>add</mat-icon>
-            </button>
-          </form>
-          <div class="chip-list">
-            @for (m of marcas; track m.id) {
-              <div class="item-row">
-                <span>{{ m.nombre }}</span>
-                <button mat-icon-button color="warn" (click)="eliminarMarca(m.id)">
-                  <mat-icon>delete_outline</mat-icon>
-                </button>
-              </div>
-            }
-          </div>
-        </div>
-
-        <!-- Modelos -->
-        <div class="catalog-box">
-          <h3>Modelos</h3>
-          <form [formGroup]="modeloForm" (ngSubmit)="agregarModelo()" class="inline-form">
-            <mat-form-field appearance="outline">
-              <mat-label>Marca</mat-label>
-              <mat-select formControlName="marcaId">
-                @for (m of marcas; track m.id) {
-                  <mat-option [value]="m.id">{{ m.nombre }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Nuevo Modelo</mat-label>
-              <input matInput formControlName="nombre" placeholder="Ej. ROG Strix" />
-            </mat-form-field>
-            <button mat-mini-fab color="primary" type="submit" title="Agregar">
-              <mat-icon>add</mat-icon>
-            </button>
-          </form>
-          <div class="chip-list">
-            @for (mod of modelos; track mod.id) {
-              <div class="item-row">
-                <span>{{ mod.nombre }} <small class="muted">({{ mod.marcaNombre }})</small></span>
-                <button mat-icon-button color="warn" (click)="eliminarModelo(mod.id)">
-                  <mat-icon>delete_outline</mat-icon>
-                </button>
-              </div>
-            }
-          </div>
+         <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
         </div>
       </div>
     </mat-tab>
   </mat-tab-group>
 </mat-card>
+

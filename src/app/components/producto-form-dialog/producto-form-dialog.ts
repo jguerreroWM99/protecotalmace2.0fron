@@ -42,7 +42,7 @@ export class ProductoFormDialog implements OnInit {
   guardando = false;
 
   productoForm: FormGroup = this.fb.group({
-    codigoSku: ['', [Validators.required]],
+    codigoSku: [{ value: 'Automático (Ej. TEC-011)', disabled: true }],
     nombre: ['', [Validators.required]],
     especificaciones: [''],
     precio: [null, [Validators.required, Validators.min(0.01)]],
@@ -107,19 +107,21 @@ export class ProductoFormDialog implements OnInit {
     }
 
     this.guardando = true;
-    const { categoriaId, marcaId, ...payload } = this.productoForm.value;
+    const { categoriaId, marcaId, codigoSku, ...payload } = this.productoForm.getRawValue();
 
     const peticion = this.data
       ? this.productoService.actualizarProducto(this.data.id, payload)
       : this.productoService.crearProducto(payload);
 
     peticion.subscribe({
-      next: () => {
+      next: (res) => {
         this.guardando = false;
         Swal.fire({
           icon: 'success',
-          title: this.data ? 'Producto actualizado' : 'Producto registrado',
-          timer: 1600,
+          title: this.data
+            ? 'Producto actualizado'
+            : `Producto registrado (${res.codigoSku})`,
+          timer: 1800,
           showConfirmButton: false
         });
         this.dialogRef.close(true);

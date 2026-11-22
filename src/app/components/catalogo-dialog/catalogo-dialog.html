@@ -1,0 +1,125 @@
+<h2 mat-dialog-title>Gestionar Catálogos del Inventario</h2>
+
+<mat-dialog-content>
+  <mat-tab-group animationDuration="150ms">
+    <!-- Categorías -->
+    <mat-tab label="Categorías">
+      <div class="tab-box">
+        <form [formGroup]="categoriaForm" #catDir="ngForm" (ngSubmit)="agregarCategoria(catDir)" class="inline-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Nueva Categoría</mat-label>
+            <input matInput formControlName="nombre" placeholder="Ej. Audio" />
+          </mat-form-field>
+          <button mat-mini-fab color="primary" type="submit" title="Agregar">
+            <mat-icon>add</mat-icon>
+          </button>
+        </form>
+        <div class="item-list">
+          @for (c of categorias; track c.id) {
+            <div class="item-row">
+              <span>{{ c.nombre }}</span>
+              <button mat-icon-button color="warn" (click)="eliminarCategoria(c.id)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Tipos de Producto -->
+    <mat-tab label="Tipos de Producto">
+      <div class="tab-box">
+        <form [formGroup]="tipoForm" #tipoDir="ngForm" (ngSubmit)="agregarTipo(tipoDir)" class="inline-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Categoría</mat-label>
+            <mat-select formControlName="categoriaId">
+              @for (c of categorias; track c.id) {
+                <mat-option [value]="c.id">{{ c.nombre }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Nuevo Tipo</mat-label>
+            <input matInput formControlName="nombre" placeholder="Ej. Audífonos" />
+          </mat-form-field>
+          <button mat-mini-fab color="primary" type="submit" title="Agregar">
+            <mat-icon>add</mat-icon>
+          </button>
+        </form>
+        <div class="item-list">
+          @for (t of tiposProducto; track t.id) {
+            <div class="item-row">
+              <span>{{ t.nombre }} <small class="muted">({{ t.categoriaNombre }})</small></span>
+              <button mat-icon-button color="warn" (click)="eliminarTipo(t.id)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Marcas -->
+    <mat-tab label="Marcas">
+      <div class="tab-box">
+        <form [formGroup]="marcaForm" #marcaDir="ngForm" (ngSubmit)="agregarMarca(marcaDir)" class="inline-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Nueva Marca</mat-label>
+            <input matInput formControlName="nombre" placeholder="Ej. Asus" />
+          </mat-form-field>
+          <button mat-mini-fab color="primary" type="submit" title="Agregar">
+            <mat-icon>add</mat-icon>
+          </button>
+        </form>
+        <div class="item-list">
+          @for (m of marcas; track m.id) {
+            <div class="item-row">
+              <span>{{ m.nombre }}</span>
+              <button mat-icon-button color="warn" (click)="eliminarMarca(m.id)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Modelos -->
+    <mat-tab label="Modelos">
+      <div class="tab-box">
+        <form [formGroup]="modeloForm" #modeloDir="ngForm" (ngSubmit)="agregarModelo(modeloDir)" class="inline-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Marca</mat-label>
+            <mat-select formControlName="marcaId">
+              @for (m of marcas; track m.id) {
+                <mat-option [value]="m.id">{{ m.nombre }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Nuevo Modelo</mat-label>
+            <input matInput formControlName="nombre" placeholder="Ej. ROG Strix" />
+          </mat-form-field>
+          <button mat-mini-fab color="primary" type="submit" title="Agregar">
+            <mat-icon>add</mat-icon>
+          </button>
+        </form>
+        <div class="item-list">
+          @for (mod of modelos; track mod.id) {
+            <div class="item-row">
+              <span>{{ mod.nombre }} <small class="muted">({{ mod.marcaNombre }})</small></span>
+              <button mat-icon-button color="warn" (click)="eliminarModelo(mod.id)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cerrar()">Cerrar</button>
+</mat-dialog-actions>

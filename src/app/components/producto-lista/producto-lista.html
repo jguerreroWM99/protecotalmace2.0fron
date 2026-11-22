@@ -1,14 +1,21 @@
 <mat-card class="inventory-card">
-  <div class="header-bar">
+ <div class="header-bar">
     <div>
       <h2>Inventario de Productos Tecnológicos</h2>
       <p class="subtitle">Gestiona equipos, periféricos, componentes y existencias</p>
     </div>
 
-    <button mat-raised-button color="primary" (click)="abrirFormulario()">
-      <mat-icon>add</mat-icon>
-      Nuevo Producto
-    </button>
+    <div class="header-actions">
+      <button mat-stroked-button color="primary" (click)="abrirCatalogos()">
+        <mat-icon>category</mat-icon>
+        Agregar Catalogo
+      </button>
+
+      <button mat-raised-button color="primary" (click)="abrirFormulario()">
+        <mat-icon>add</mat-icon>
+        Nuevo Producto
+      </button>
+    </div>
   </div>
 
   <mat-form-field appearance="outline" class="search-field">
