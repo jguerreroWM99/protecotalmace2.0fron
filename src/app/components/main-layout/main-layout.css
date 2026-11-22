@@ -1,0 +1,378 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+/* =========================================================
+   ESTILOS DEL SIDENAV EN MODO CLARO (POR DEFECTO)
+   ========================================================= */
+.sidenav {
+  width: 260px;
+  background-color: #ffffff;
+  color: #1e293b;
+  border-right: 1px solid #e2e8f0;
+  overflow-x: hidden;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease;
+}
+
+.sidenav.collapsed {
+  width: 74px;
+}
+
+.sidenav-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.sidenav-brand {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 19px;
+  font-weight: 700;
+  background-color: #f8fafc;
+  color: #2563eb;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.sidenav.collapsed .sidenav-brand {
+  justify-content: center;
+  padding: 0;
+}
+
+.brand-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.sidebar-toggle-btn {
+  color: #475569;
+}
+
+/* Bloque de usuario centrado debajo de la marca */
+.user-profile-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px 14px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+}
+
+.sidenav.collapsed .user-profile-center {
+  padding: 14px 8px;
+}
+
+.avatar-ring {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #eff6ff;
+  border: 2px solid #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  transition: all 0.25s ease;
+}
+
+.sidenav.collapsed .avatar-ring {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0;
+}
+
+.avatar-ring mat-icon {
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+  color: #2563eb;
+}
+
+.sidenav.collapsed .avatar-ring mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.u-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.u-role {
+  margin-top: 5px;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background-color: #dbeafe;
+  font-size: 11px;
+  color: #1d4ed8;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+
+/* Navegación */
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 12px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  color: #475569;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.sidenav.collapsed .nav-item {
+  justify-content: center;
+  padding: 12px 0;
+}
+
+.nav-item mat-icon {
+  color: #64748b;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.nav-item:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.nav-item:hover mat-icon {
+  color: #2563eb;
+}
+
+.active-link {
+  background-color: #eff6ff !important;
+  color: #2563eb !important;
+  font-weight: 600;
+}
+
+.active-link mat-icon {
+  color: #2563eb !important;
+}
+
+/* Pie del menú lateral */
+.sidenav-footer {
+  padding: 14px 12px;
+  border-top: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.theme-switch-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: #e2e8f0;
+  cursor: pointer;
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sidenav.collapsed .theme-switch-box {
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.theme-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.theme-label mat-icon {
+  color: #d97706;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.btn-logout-sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.btn-logout-sidebar:hover {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+.top-toolbar {
+  background-color: #ffffff;
+  color: #0f172a;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-title {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.page-wrapper {
+  padding: 24px;
+  background-color: #f1f5f9;
+  min-height: calc(100vh - 64px);
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   ESTILOS DEL SIDENAV EN MODO OSCURO
+   ========================================================= */
+:host-context(body.dark-theme) .sidenav {
+  background-color: #0f172a;
+  color: #f8fafc;
+  border-right-color: #1e293b;
+}
+
+:host-context(body.dark-theme) .sidenav-brand {
+  background-color: #020617;
+  color: #38bdf8;
+  border-bottom-color: #1e293b;
+}
+
+:host-context(body.dark-theme) .sidebar-toggle-btn {
+  color: #cbd5e1;
+}
+
+:host-context(body.dark-theme) .user-profile-center {
+  background-color: #0b1120;
+  border-bottom-color: #1e293b;
+}
+
+:host-context(body.dark-theme) .avatar-ring {
+  background: rgba(56, 189, 248, 0.14);
+  border-color: #38bdf8;
+}
+
+:host-context(body.dark-theme) .avatar-ring mat-icon {
+  color: #38bdf8;
+}
+
+:host-context(body.dark-theme) .u-name {
+  color: #f8fafc;
+}
+
+:host-context(body.dark-theme) .u-role {
+  background-color: rgba(56, 189, 248, 0.16);
+  color: #38bdf8;
+}
+
+:host-context(body.dark-theme) .nav-item {
+  color: #e2e8f0;
+}
+
+:host-context(body.dark-theme) .nav-item mat-icon {
+  color: #94a3b8;
+}
+
+:host-context(body.dark-theme) .nav-item:hover {
+  background-color: #1e293b;
+  color: #ffffff;
+}
+
+:host-context(body.dark-theme) .nav-item:hover mat-icon {
+  color: #38bdf8;
+}
+
+:host-context(body.dark-theme) .active-link {
+  background-color: rgba(56, 189, 248, 0.18) !important;
+  color: #38bdf8 !important;
+}
+
+:host-context(body.dark-theme) .active-link mat-icon {
+  color: #38bdf8 !important;
+}
+
+:host-context(body.dark-theme) .sidenav-footer {
+  background-color: #020617;
+  border-top-color: #1e293b;
+}
+
+:host-context(body.dark-theme) .theme-switch-box {
+  background-color: #1e293b;
+  color: #f1f5f9;
+}
+
+:host-context(body.dark-theme) .theme-label mat-icon {
+  color: #fbbf24;
+}
+
+:host-context(body.dark-theme) .btn-logout-sidebar {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+}
+
+:host-context(body.dark-theme) .btn-logout-sidebar:hover {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+.sidenav-brand {
+  position: relative;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  font-size: 19px;
+  font-weight: 700;
+  background-color: #f8fafc;
+  color: #2563eb;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.sidebar-toggle-btn {
+  position: absolute;
+  left: 10px;
+  color: #475569;
+}
+
+.sidenav.collapsed .sidebar-toggle-btn {
+  position: static;
+}

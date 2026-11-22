@@ -1,0 +1,133 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    mode="side"
+    opened
+    class="sidenav"
+    [class.collapsed]="!menuExpandido"
+  >
+    <div class="sidenav-wrapper">
+ <!-- Cabecera de marca con el botón de 3 líneas a la izquierda y el logo a la derecha -->
+      <div class="sidenav-brand">
+        <button
+          mat-icon-button
+          class="sidebar-toggle-btn"
+          (click)="toggleMenu()"
+          [matTooltip]="menuExpandido ? 'Contraer menú' : 'Expandir menú'"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        @if (menuExpandido) {
+          <div class="brand-left">
+            <mat-icon>inventory_2</mat-icon>
+            <span>Almacén Tech</span>
+          </div>
+        }
+      </div>
+
+      <!-- Perfil del usuario centrado debajo de Almacén Tech -->
+      @if (usuario) {
+        <div class="user-profile-center">
+          <div class="avatar-ring">
+            <mat-icon>person</mat-icon>
+          </div>
+          @if (menuExpandido) {
+            <span class="u-name">{{ usuario.nombres }} {{ usuario.apellidos }}</span>
+            <span class="u-role">{{ usuario.rolNombre }}</span>
+          }
+        </div>
+      }
+
+      <!-- Opciones de navegación -->
+      <nav class="nav-menu">
+        <a
+          class="nav-item"
+          routerLink="/app/productos"
+          routerLinkActive="active-link"
+          (click)="cerrarSiEsMovil()"
+          [matTooltip]="!menuExpandido ? 'Productos' : ''"
+          matTooltipPosition="right"
+        >
+          <mat-icon>devices</mat-icon>
+          @if (menuExpandido) {
+            <span>Productos</span>
+          }
+        </a>
+
+        <a
+          class="nav-item"
+          routerLink="/app/usuarios"
+          routerLinkActive="active-link"
+          (click)="cerrarSiEsMovil()"
+          [matTooltip]="!menuExpandido ? 'Usuarios' : ''"
+          matTooltipPosition="right"
+        >
+          <mat-icon>group</mat-icon>
+          @if (menuExpandido) {
+            <span>Usuarios</span>
+          }
+        </a>
+
+        <a
+          class="nav-item"
+          routerLink="/app/perfil"
+          routerLinkActive="active-link"
+          (click)="cerrarSiEsMovil()"
+          [matTooltip]="!menuExpandido ? 'Configuración' : ''"
+          matTooltipPosition="right"
+        >
+          <mat-icon>settings</mat-icon>
+          @if (menuExpandido) {
+            <span>Configuración</span>
+          }
+        </a>
+      </nav>
+
+      <!-- Pie del menú lateral: Modo Oscuro y Cerrar Sesión -->
+      <div class="sidenav-footer">
+        <div
+          class="theme-switch-box"
+          (click)="toggleTema()"
+          [matTooltip]="!menuExpandido ? 'Cambiar tema' : ''"
+          matTooltipPosition="right"
+        >
+          <div class="theme-label">
+            <mat-icon>{{ modoOscuro ? 'dark_mode' : 'light_mode' }}</mat-icon>
+            @if (menuExpandido) {
+              <span>Modo Oscuro</span>
+            }
+          </div>
+          @if (menuExpandido) {
+            <mat-slide-toggle
+              [checked]="modoOscuro"
+              (click)="$event.stopPropagation()"
+              (change)="toggleTema()"
+            ></mat-slide-toggle>
+          }
+        </div>
+
+        <button
+          class="btn-logout-sidebar"
+          (click)="cerrarSesion()"
+          [matTooltip]="!menuExpandido ? 'Cerrar Sesión' : ''"
+          matTooltipPosition="right"
+        >
+          <mat-icon>logout</mat-icon>
+          @if (menuExpandido) {
+            <span>Cerrar Sesión</span>
+          }
+        </button>
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-content">
+    <mat-toolbar class="top-toolbar">
+      <span class="toolbar-title">Panel de Control</span>
+    </mat-toolbar>
+
+    <div class="page-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

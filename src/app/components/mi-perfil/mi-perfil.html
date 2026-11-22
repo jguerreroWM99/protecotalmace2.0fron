@@ -1,0 +1,250 @@
+<mat-card class="config-card">
+  <div class="header-bar">
+    <div>
+      <h2>Configuración y Cuenta</h2>
+      <p class="subtitle">Administra tus datos personales, seguridad, historial de actividad y catálogos</p>
+    </div>
+  </div>
+
+  <mat-tab-group animationDuration="200ms">
+    <!-- PESTAÑA 1: MI PERFIL Y CONTRASEÑA -->
+    <mat-tab label="Mi Perfil y Seguridad">
+      <div class="tab-content profile-grid">
+        @if (usuario) {
+          <div class="info-box">
+            <h3>Información Personal</h3>
+            <div class="info-row">
+              <span class="label">Usuario:</span>
+              <span class="value">&#64;{{ usuario.username }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Nombre Completo:</span>
+              <span class="value">{{ usuario.nombres }} {{ usuario.apellidos }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Documento (DNI / CE):</span>
+              <span class="value">{{ usuario.documentoIdentidad }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Fecha de Nacimiento:</span>
+              <span class="value">{{ usuario.fechaNacimiento }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Correo Electrónico:</span>
+              <span class="value">{{ usuario.correo }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Rol en el Sistema:</span>
+              <span class="role-badge-inline">{{ usuario.rolNombre }}</span>
+            </div>
+          </div>
+        }
+
+        <div class="security-box">
+          <h3>Actualizar Contraseña</h3>
+          <p class="muted">Ingresa tu contraseña actual y define una nueva clave de acceso.</p>
+
+          <form [formGroup]="passwordForm" (ngSubmit)="cambiarPassword()" class="pass-form">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Contraseña Actual</mat-label>
+              <input matInput [type]="ocultarActual ? 'password' : 'text'" formControlName="passwordActual" />
+              <button mat-icon-button matSuffix type="button" (click)="ocultarActual = !ocultarActual">
+                <mat-icon>{{ ocultarActual ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nueva Contraseña</mat-label>
+              <input matInput [type]="ocultarNueva ? 'password' : 'text'" formControlName="passwordNueva" />
+              <button mat-icon-button matSuffix type="button" (click)="ocultarNueva = !ocultarNueva">
+                <mat-icon>{{ ocultarNueva ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="guardandoClave">
+              <mat-icon>key</mat-icon>
+              {{ guardandoClave ? 'Actualizando...' : 'Guardar Nueva Contraseña' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- PESTAÑA 2: HISTORIAL DE MOVIMIENTOS -->
+    <mat-tab label="Historial de Movimientos">
+      <div class="tab-content">
+        <div class="history-controls">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Filtrar historial por acción, módulo o detalle...</mat-label>
+            <input matInput (keyup)="filtrarHistorial($event)" placeholder="Ej. PRODUCTOS, CREAR, TEC-001" />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+          @if (authService.esAdmin() || authService.esSupervisor()) {
+            <mat-button-toggle-group [(value)]="vistaHistorial" (change)="cargarHistorial()">
+              <mat-button-toggle value="personal">Mis Movimientos</mat-button-toggle>
+              <mat-button-toggle value="supervisado">
+                {{ authService.esAdmin() ? 'Todo el Sistema' : 'Supervisado (Equipo)' }}
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          }
+        </div>
+
+        <div class="table-responsive">
+          <table mat-table [dataSource]="historialDataSource">
+            <ng-container matColumnDef="fechaHora">
+              <th mat-header-cell *matHeaderCellDef>Fecha y Hora</th>
+              <td mat-cell *matCellDef="let h">{{ h.fechaHora | date:'dd/MM/yyyy HH:mm' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="usuarioNombreCompleto">
+              <th mat-header-cell *matHeaderCellDef>Usuario</th>
+              <td mat-cell *matCellDef="let h">
+                {{ h.usuarioNombreCompleto }} <span class="muted">({{ h.usuarioRol }})</span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="modulo">
+              <th mat-header-cell *matHeaderCellDef>Módulo</th>
+              <td mat-cell *matCellDef="let h"><strong>{{ h.modulo }}</strong></td>
+            </ng-container>
+
+            <ng-container matColumnDef="accion">
+              <th mat-header-cell *matHeaderCellDef>Acción</th>
+              <td mat-cell *matCellDef="let h">
+                <span class="action-pill" [attr.data-action]="h.accion">{{ h.accion }}</span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="detalle">
+              <th mat-header-cell *matHeaderCellDef>Detalle</th>
+              <td mat-cell *matCellDef="let h">{{ h.detalle }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="historialColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: historialColumns;"></tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- PESTAÑA 3: CATÁLOGOS DEL ALMACÉN -->
+    <mat-tab label="Catálogos (Marcas y Tipos)">
+      <div class="tab-content catalogs-grid">
+        <!-- Categorías -->
+        <div class="catalog-box">
+          <h3>Categorías</h3>
+          <form [formGroup]="categoriaForm" (ngSubmit)="agregarCategoria()" class="inline-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Nueva Categoría</mat-label>
+              <input matInput formControlName="nombre" placeholder="Ej. Audio" />
+            </mat-form-field>
+            <button mat-mini-fab color="primary" type="submit" title="Agregar">
+              <mat-icon>add</mat-icon>
+            </button>
+          </form>
+          <div class="chip-list">
+            @for (c of categorias; track c.id) {
+              <div class="item-row">
+                <span>{{ c.nombre }}</span>
+                <button mat-icon-button color="warn" (click)="eliminarCategoria(c.id)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Tipos de Producto -->
+        <div class="catalog-box">
+          <h3>Tipos de Producto</h3>
+          <form [formGroup]="tipoForm" (ngSubmit)="agregarTipo()" class="inline-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Categoría</mat-label>
+              <mat-select formControlName="categoriaId">
+                @for (c of categorias; track c.id) {
+                  <mat-option [value]="c.id">{{ c.nombre }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Nuevo Tipo</mat-label>
+              <input matInput formControlName="nombre" placeholder="Ej. Audífonos" />
+            </mat-form-field>
+            <button mat-mini-fab color="primary" type="submit" title="Agregar">
+              <mat-icon>add</mat-icon>
+            </button>
+          </form>
+          <div class="chip-list">
+            @for (t of tiposProducto; track t.id) {
+              <div class="item-row">
+                <span>{{ t.nombre }} <small class="muted">({{ t.categoriaNombre }})</small></span>
+                <button mat-icon-button color="warn" (click)="eliminarTipo(t.id)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Marcas -->
+        <div class="catalog-box">
+          <h3>Marcas</h3>
+          <form [formGroup]="marcaForm" (ngSubmit)="agregarMarca()" class="inline-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Nueva Marca</mat-label>
+              <input matInput formControlName="nombre" placeholder="Ej. Asus" />
+            </mat-form-field>
+            <button mat-mini-fab color="primary" type="submit" title="Agregar">
+              <mat-icon>add</mat-icon>
+            </button>
+          </form>
+          <div class="chip-list">
+            @for (m of marcas; track m.id) {
+              <div class="item-row">
+                <span>{{ m.nombre }}</span>
+                <button mat-icon-button color="warn" (click)="eliminarMarca(m.id)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Modelos -->
+        <div class="catalog-box">
+          <h3>Modelos</h3>
+          <form [formGroup]="modeloForm" (ngSubmit)="agregarModelo()" class="inline-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Marca</mat-label>
+              <mat-select formControlName="marcaId">
+                @for (m of marcas; track m.id) {
+                  <mat-option [value]="m.id">{{ m.nombre }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Nuevo Modelo</mat-label>
+              <input matInput formControlName="nombre" placeholder="Ej. ROG Strix" />
+            </mat-form-field>
+            <button mat-mini-fab color="primary" type="submit" title="Agregar">
+              <mat-icon>add</mat-icon>
+            </button>
+          </form>
+          <div class="chip-list">
+            @for (mod of modelos; track mod.id) {
+              <div class="item-row">
+                <span>{{ mod.nombre }} <small class="muted">({{ mod.marcaNombre }})</small></span>
+                <button mat-icon-button color="warn" (click)="eliminarModelo(mod.id)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

@@ -1,1 +1,65 @@
-/* You can add global styles to this file, and also import other style files */
+/* Estilos globales del Modo Oscuro para accesibilidad visual */
+body.dark-theme .page-wrapper {
+  background-color: #0b1120 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .top-toolbar {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border-bottom: 1px solid #1e293b !important;
+}
+
+body.dark-theme mat-card,
+body.dark-theme .mat-mdc-card {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3,
+body.dark-theme .prod-name {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .subtitle,
+body.dark-theme .prod-specs,
+body.dark-theme .muted {
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme table,
+body.dark-theme .mat-mdc-table,
+body.dark-theme .mat-mdc-paginator {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .mat-mdc-header-cell {
+  color: #38bdf8 !important;
+  border-bottom-color: #334155 !important;
+}
+
+body.dark-theme .mat-mdc-cell {
+  color: #f1f5f9 !important;
+  border-bottom-color: #334155 !important;
+}
+
+body.dark-theme .mat-mdc-form-field-input-control,
+body.dark-theme .mat-mdc-floating-label,
+body.dark-theme .mat-mdc-select-value,
+body.dark-theme .mat-mdc-paginator-page-size-label,
+body.dark-theme .mat-mdc-paginator-range-label {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .mdc-notched-outline__leading,
+body.dark-theme .mdc-notched-outline__notch,
+body.dark-theme .mdc-notched-outline__trailing {
+  border-color: #475569 !important;
+}
+
+body.dark-theme mat-icon {
+  color: #e2e8f0;
+}

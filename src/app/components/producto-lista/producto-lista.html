@@ -1,0 +1,79 @@
+<mat-card class="inventory-card">
+  <div class="header-bar">
+    <div>
+      <h2>Inventario de Productos Tecnológicos</h2>
+      <p class="subtitle">Gestiona equipos, periféricos, componentes y existencias</p>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="abrirFormulario()">
+      <mat-icon>add</mat-icon>
+      Nuevo Producto
+    </button>
+  </div>
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Buscar por SKU, nombre, marca o categoría...</mat-label>
+    <input matInput (keyup)="aplicarFiltro($event)" placeholder="Ej. Laptop, Dell, TEC-001" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="codigoSku">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>SKU</th>
+        <td mat-cell *matCellDef="let p"><strong>{{ p.codigoSku }}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+        <td mat-cell *matCellDef="let p">
+          <div class="prod-name">{{ p.nombre }}</div>
+          <div class="prod-specs">{{ p.especificaciones }}</div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="categoriaNombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoría / Tipo</th>
+        <td mat-cell *matCellDef="let p">
+          {{ p.categoriaNombre }} <span class="muted">({{ p.tipoProductoNombre }})</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="marcaModelo">
+        <th mat-header-cell *matHeaderCellDef>Marca / Modelo</th>
+        <td mat-cell *matCellDef="let p">{{ p.marcaNombre }} - {{ p.modeloNombre }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="precio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
+        <td mat-cell *matCellDef="let p">S/ {{ p.precio | number:'1.2-2' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock</th>
+        <td mat-cell *matCellDef="let p">
+          <span class="stock-badge" [class.low-stock]="p.stock <= 10">
+            {{ p.stock }} unid.
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let p">
+          <button mat-icon-button color="primary" matTooltip="Editar" (click)="abrirFormulario(p)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" matTooltip="Eliminar" (click)="eliminarProducto(p)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </div>
+</mat-card>

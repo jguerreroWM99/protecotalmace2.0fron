@@ -1,0 +1,76 @@
+<h2 mat-dialog-title>{{ data ? 'Editar Usuario' : 'Registrar Nuevo Usuario' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="usuarioForm" class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Usuario (Login)</mat-label>
+      <input matInput formControlName="username" placeholder="Ej. mgarcia" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Rol Asignado</mat-label>
+      <mat-select formControlName="rolId">
+        @for (rol of rolesDisponibles; track rol.id) {
+          <mat-option [value]="rol.id">{{ rol.nombre }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nombres</mat-label>
+      <input matInput formControlName="nombres" placeholder="Ej. María" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Apellidos</mat-label>
+      <input matInput formControlName="apellidos" placeholder="Ej. García López" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Documento (DNI / CE)</mat-label>
+      <input matInput formControlName="documentoIdentidad" placeholder="Ej. 45678912" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de Nacimiento</mat-label>
+      <input matInput type="date" formControlName="fechaNacimiento" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Correo Electrónico</mat-label>
+      <input matInput type="email" formControlName="correo" placeholder="usuario@empresa.com" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ data ? 'Nueva Contraseña (Opcional)' : 'Contraseña' }}</mat-label>
+      <input
+        matInput
+        [type]="ocultarPassword ? 'password' : 'text'"
+        formControlName="password"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="ocultarPassword = !ocultarPassword"
+      >
+        <mat-icon>{{ ocultarPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+
+    @if (data) {
+      <div class="status-toggle full-span">
+        <mat-slide-toggle formControlName="activo" color="primary">
+          Cuenta Activa (Permitir acceso al sistema)
+        </mat-slide-toggle>
+      </div>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cerrar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="guardar()" [disabled]="guardando">
+    {{ guardando ? 'Guardando...' : 'Guardar' }}
+  </button>
+</mat-dialog-actions>
